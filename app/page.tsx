@@ -1,14 +1,27 @@
+"use client"; 
+
+import { useState, useEffect } from "react";
 import ClientWrapper from "./components/UserWrapper";
 
-export default async function Home() {
- 
-  const response = await fetch("http://localhost:3000/api/users", { cache: "no-store" });
+export default function Home() {
+  const [initialUsers, setInitialUsers] = useState([]);
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch users");
-  }
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch("/api/users", { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error("Failed to fetch users");
+        }
+        const data = await response.json();
+        setInitialUsers(data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
 
-  const initialUsers = await response.json();
+    fetchUsers();
+  }, []);
 
   return (
     <div style={{ padding: "20px" }}>
