@@ -1,4 +1,6 @@
-export default function UserList({ users }: { users: { id: number; name: string; email: string }[] }) {
+import { User } from "../api/users/types";
+
+export default function UserList({ users }: { users: User[] }) {
   return (
     <div>
       <h2>Users</h2>
